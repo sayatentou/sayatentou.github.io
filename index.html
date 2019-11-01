@@ -1,0 +1,271 @@
+<html>
+    <head>
+        <title>Momoclo Calculator</title>
+
+        <style>
+        
+            body {
+                background-image: url("./momoclo.jpg");
+                background-size: cover;
+                background-position: center;
+            }
+
+            .calculator {
+                width: 400px;
+                height: 400px;
+                margin: 0 auto;
+                margin-top: 300px;
+                border-radius: 10px;
+                border: solid 1px red;
+                background-color: black;
+                opacity: 0.8;
+            }
+
+            .title {
+                width: 100%;
+                height: 60px;
+                text-align: center;
+            }
+
+            .title  h1 {
+                margin: 0;
+                line-height: 60px;
+                color: white;
+            }
+            
+            .result {
+                width: 100%;
+                height: 50px;
+                font-size: 30px;
+                padding: 1%;
+            }
+
+            .button {
+                float: left;
+                width: 33.33%;
+                height: 50px;
+                font-size: 20px;
+                color: white;
+                background-color: black;
+                cursor: pointer;
+                border: solid 1px red;
+            }
+
+            .pink:hover {
+                border: solid 2px rgb(240, 89, 182);
+            }
+
+            .green:hover {
+                border: solid 2px green;
+            }
+
+            .red:hover {
+                border: solid 2px red;
+            }
+
+            .blue:hover {
+                border: solid 2px blue;
+            }
+
+            .yellow:hover {
+                border: solid 2px yellow;
+            }
+
+            .purple:hover {
+                border: solid 2px rgb(207, 59, 212);
+            }
+
+            .p {
+                color: rgb(240, 89, 182);
+            }
+
+            .g {
+                color: green;
+            }
+
+            .r {
+                color: red;
+            }
+
+            .b {
+                color: blue;
+            }
+
+            .y {
+                color: yellow;
+            }
+
+            .u {
+                color: rgb(207, 59, 212);
+            }
+
+            span {
+                cursor: pointer;
+                user-select: none;
+            }
+
+            .rotate {
+                transform: rotate(2160deg);
+                transition: 5.0s;
+            }
+
+            iframe {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                width: 400px;
+                height: 347px;
+                margin-top: -16px;
+                margin-left: -200px;
+                border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+                display: none;
+            }
+
+            .toShow {
+                display: block;
+                animation: drop 2s;
+            }
+
+
+        </style>
+
+    </head>
+    <body>
+        <div class="calculator" id="calculator">
+
+            <div class="title" id="title">
+                <h1>
+                    <span onclick="changeThemeColorToPink()" class="p">M</span><span onclick="changeThemeColorToGreen()" class="g">o</span><span onclick="changeThemeColorToRed()" class="r">m</span><span onclick="changeThemeColorToBlue()" class="b">o</span><span onclick="changeThemeColorToYellow()" class="y">c</span><span onclick="changeThemeColorToPurple()" class="u">l</span><span onclick="changeThemeColorToPink()" class="p">o</span>
+
+                    <span onclick="changeThemeColorToGreen()" class="g">C</span><span onclick="changeThemeColorToRed()" class="r">a</span><span onclick="changeThemeColorToBlue()" class="b">l</span><span onclick="changeThemeColorToYellow()" class="y">c</span><span onclick="changeThemeColorToPurple()" class="u">u</span><span onclick="changeThemeColorToPink()" class="p">r</span><span onclick="changeThemeColorToGreen()" class="g">a</span><span onclick="changeThemeColorToRed()" class="r">t</span><span onclick="changeThemeColorToBlue()" class="b">o</span><span onclick="changeThemeColorToYellow()" class="y">r</span>
+                </h1>
+            </div>
+
+            <input type="text" class="result" id="result">
+
+            <button onclick="clearText()" class="button pink" id="button">AC</button>
+            <button onclick="appnedForCalcuration(' % ')" class="button pink">%</button>
+            <button onclick="appnedForCalcuration(' / ')" class="button pink">/</button>
+
+            <button onclick="appnedForCalcuration(' * ')" class="button green">*</button>
+            <button onclick="appnedForCalcuration(' + ')" class="button green">+</button>
+            <button onclick="appnedForCalcuration(' - ')" class="button green">-</button>
+
+            <button onclick="appnedForCalcuration('7')" class="button red">7</button>
+            <button onclick="appnedForCalcuration('8')" class="button red">8</button>
+            <button onclick="appnedForCalcuration('9')" class="button red">9</button>
+            
+            <button onclick="appnedForCalcuration('4')" class="button blue">4</button>
+            <button onclick="appnedForCalcuration('5')" class="button blue">5</button>
+            <button onclick="appnedForCalcuration('6')" class="button blue">6</button>
+            
+            <button onclick="appnedForCalcuration('1')" class="button yellow">1</button>
+            <button onclick="appnedForCalcuration('2')" class="button yellow">2</button>
+            <button onclick="appnedForCalcuration('3')" class="button yellow">3</button>
+
+            <button onclick="appnedForCalcuration('.')" class="button purple" style="border-bottom-left-radius: 10px;">.</button>
+            <button onclick="appnedForCalcuration('0')" class="button purple">0</button>
+            <button onclick="calculate()" class="button purple" style="border-bottom-right-radius: 10px;">=</button>
+
+        </div>
+
+        <iframe id="youtube" width="560" height="315" src="https://www.youtube.com/embed/u7z9M0vFPbI?start=53&end=78" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+        <script>
+
+            let toBeCleared = false;
+        
+            const textField = document.getElementById('result');
+
+            function appnedForCalcuration(symbol) {
+
+                if (toBeCleared) {
+                    clearText();
+                }
+
+                textField.value += symbol;
+
+                if (textField.value == '123456') {
+                    document.getElementById('title').classList.add('rotate');
+                    document.getElementById('youtube').classList.add('toShow');
+                }
+
+            }
+
+            function calculate() {
+
+                toBeCleared = true;
+
+                textField.value += ' = ' + eval(textField.value);
+
+            }
+
+            function clearText() {
+
+                textField.value = '';
+
+                toBeCleared = false;
+
+                document.getElementById('title').classList.remove('rotate');
+
+            }
+
+
+            // change theme color functions * 6
+
+            function changeThemeColorToPink() {
+                for (let i = 0; i < 18; i++) {
+                    document.getElementsByClassName("button")[i].style.border = 'solid 1px rgb(240, 89, 182)';
+                }
+                
+                document.getElementById('calculator').style.border = 'solid 1px rgb(240, 89, 182)';
+            }
+            
+            function changeThemeColorToGreen() {
+                for (let i = 0; i < 18; i++) {
+                    document.getElementsByClassName("button")[i].style.border = 'solid 1px green';
+                }
+                
+                document.getElementById('calculator').style.border = 'solid 1px green';
+            }
+
+            function changeThemeColorToRed() {
+                for (let i = 0; i < 18; i++) {
+                    document.getElementsByClassName("button")[i].style.border = 'solid 1px red';
+                }
+                
+                document.getElementById('calculator').style.border = 'solid 1px red';
+            }
+
+            function changeThemeColorToBlue() {
+                for (let i = 0; i < 18; i++) {
+                    document.getElementsByClassName("button")[i].style.border = 'solid 1px blue';
+                }
+                
+                document.getElementById('calculator').style.border = 'solid 1px blue';
+            }
+
+            function changeThemeColorToYellow() {
+                for (let i = 0; i < 18; i++) {
+                    document.getElementsByClassName("button")[i].style.border = 'solid 1px yellow';
+                }
+                
+                document.getElementById('calculator').style.border = 'solid 1px yellow';
+            }
+
+            function changeThemeColorToPurple() {
+                for (let i = 0; i < 18; i++) {
+                    document.getElementsByClassName("button")[i].style.border = 'solid 1px rgb(207, 59, 212)';
+                }
+                
+                document.getElementById('calculator').style.border = 'solid 1px rgb(207, 59, 212)';
+            }
+
+
+
+        
+        </script>
+        
+    </body>
+</html>
